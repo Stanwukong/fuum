@@ -37,8 +37,8 @@ const Folders = ({ workspaceId }: Props) => {
 
   const { data: folders, status } = data as FoldersProps;
 
-  if (isFetched && folders) {
-  }
+//   if (isFetched && folders) {
+//   }
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
@@ -58,7 +58,7 @@ const Folders = ({ workspaceId }: Props) => {
         )}
       >
         {status !== 200 ? (
-          <p>No folders in workspace</p>
+          <p className="text-neutral-300">No folders in workspace</p>
         ) : (
           <>
             {latestVariables && latestVariables.status === "pending" && (
