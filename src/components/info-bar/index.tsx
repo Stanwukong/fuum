@@ -3,6 +3,7 @@ import React from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import VideoRecorderIcon from "../icons/video-recorder";
+import { UserButton } from "@clerk/nextjs";
 
 type Props = {};
 
@@ -25,6 +26,7 @@ const InfoBar = (props: Props) => {
             <VideoRecorderIcon />
             <span className="flex items-center gap-2">Record</span>
         </Button>
+        <UserButton/>
       </div>
     </header>
   );

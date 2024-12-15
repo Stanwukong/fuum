@@ -163,3 +163,50 @@ export const getWorkspaces = async () => {
   }
 };
 
+export const createWorkspace = async (name: string) => {
+  try {
+    const user = await currentUser();
+
+    if (!user) return { status: 404 };
+
+    const authorized = await prisma.user.findUnique({
+      where: {
+        clerkId: user.id,
+      },
+      select: {
+        subscription: {
+          select: {
+            plan: true,
+          },
+        },
+      },
+    });
+
+    if (authorized?.subscription?.plan === "PRO") {
+      const workspace = await prisma.user.update({
+        where: {
+          clerkId: user.id,
+        },
+        data: {
+          workspace: {
+            create: {
+              name,
+              type: "PUBLIC",
+            },
+          },
+        },
+      });
+
+      if (workspace) {
+        return { status: 201, data: "Workspace created!" };
+      }
+    }
+
+    return {
+      status: 401,
+      data: "You are not authorized to create a workspace",
+    };
+  } catch (error) {
+    return { status: 400 };
+  }
+};
