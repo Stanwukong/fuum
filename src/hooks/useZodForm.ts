@@ -19,10 +19,12 @@ const useZodForm = (
     defaultValues: { ...defaultValues },
   });
 
+  const onFormSubmit = handleSubmit(async (values) => {
+    console.log(values, "Form Values"); // Debug log
+    mutation(values);
+  });
 
-  const onFormSubmit = handleSubmit(async (values) => mutation(...values))
-
-  return { register, watch, reset, onFormSubmit, errors}
+  return { register, watch, reset, onFormSubmit, errors };
 };
 
 export default useZodForm;

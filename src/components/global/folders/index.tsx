@@ -9,6 +9,8 @@ import { useQueryData } from "@/hooks/useQueryData";
 import { getWorkSpaceFolders } from "@/actions/workspace";
 import { useMutationState } from "@tanstack/react-query";
 import { useMutationDataState } from "@/hooks/useMutationData";
+import { useDispatch } from "react-redux";
+import { FOLDERS } from "@/redux/slices/folders";
 
 type Props = {
   workspaceId: string;
@@ -29,6 +31,7 @@ export type FoldersProps = {
 };
 
 const Folders = ({ workspaceId }: Props) => {
+  const dispatch = useDispatch()
   const { data, isFetched } = useQueryData(["workspace-folders"], () =>
     getWorkSpaceFolders(workspaceId)
   );
@@ -37,8 +40,9 @@ const Folders = ({ workspaceId }: Props) => {
 
   const { data: folders, status } = data as FoldersProps;
 
-//   if (isFetched && folders) {
-//   }
+  if (isFetched && folders) {
+    dispatch(FOLDERS({ folders }));
+  }
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">

@@ -277,3 +277,77 @@ export const getFolderInfo = async (folderId: string) => {
     return { status: 500, data: null };
   }
 };
+
+export const moveVideoLocation = async (
+  videoId: string,
+  folderId: string,
+  workSpaceId: string
+) => {
+  try {
+    const location = await prisma.video.update({
+      where: {
+        id: videoId,
+      },
+      data: {
+        folderId: folderId || null,
+        workSpaceId,
+      },
+    });
+    if (location) {
+      return { status: 200, data: "Folder changed successfully!" };
+    }
+    return { status: 404, data: "Video/Folder not found" };
+  } catch (error) {
+    return { status: 500, data: "Oops! Something went wrong!" };
+  }
+};
+
+export const getPreviewVideo = async (videoId: string) => {
+  try {
+    const user = await currentUser();
+    if (!user) {
+      return { status: 404 };
+    }
+
+    const video = await prisma.video.findUnique({
+      where: {
+        id: videoId,
+      },
+      select: {
+        title: true,
+        createdAt: true,
+        source: true,
+        description: true,
+        processing: true,
+        views: true,
+        summary: true,
+        User: {
+          select: {
+            firstname: true,
+            lastname: true,
+            image: true,
+            clerkId: true,
+            trial: true,
+            subscription: {
+              select: {
+                plan: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (video) {
+      return {
+        status: 200,
+        data: video,
+        author: user.id === video.User?.clerkId ? true : false,
+      };
+    }
+
+    return { status: 404, data: null };
+  } catch (error) {
+    return { status: 500, data: null };
+  }
+};
