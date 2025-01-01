@@ -18,6 +18,8 @@ const GlobalHeader = ({ workspace }: Props) => {
       <h1 className="text-4xl font-bold">
         {pathname && !pathname.includes("folder")
           ? pathname.charAt(1).toUpperCase() + pathname.slice(2).toLowerCase()
+          : pathname.includes('video')
+          ? ''
           : "My Library"}
       </h1>
     </article>

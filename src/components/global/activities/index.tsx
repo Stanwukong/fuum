@@ -21,10 +21,7 @@ const Activities = ({ author, videoId }: Props) => {
   const { data: comments } = data as VideoCommentProps;
 
   return (
-    <TabsContent
-      value="Activity"
-      className="p-5 bg-neutral-800 flex flex-col gap-y-5"
-    >
+    <TabsContent value="Activity">
       <CommentForm videoId={videoId} author={author} commentId={""} />
       {comments.map((comment) => (
         <CommentCard
@@ -38,6 +35,7 @@ const Activities = ({ author, videoId }: Props) => {
           videoId={videoId}
           commentId={comment.id}
           reply={comment.reply}
+          createdAt={comment.createdAt}
         />
       ))}
     </TabsContent>

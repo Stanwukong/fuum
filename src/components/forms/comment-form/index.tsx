@@ -3,19 +3,19 @@
 import FormGenerator from "@/components/global/form-generator";
 import Loader from "@/components/global/loader";
 import { Button } from "@/components/ui/button";
-import { useVideoComemnt } from "@/hooks/useVideo";
-import { Send, X } from "lucide-react";
+import { useVideoComment } from "@/hooks/useVideo";
+import { SendIcon } from "lucide-react";
 import React from "react";
 
 type Props = {
   videoId: string;
-  commentId: string;
+  commentId: string
   author: string;
   close?: () => void;
 };
 
 const CommentForm = ({ videoId, commentId, author, close }: Props) => {
-  const { errors, isPending, onFormSubmit, register } = useVideoComemnt(
+  const { errors, isPending, onFormSubmit, register } = useVideoComment(
     videoId,
     commentId
   );
@@ -36,7 +36,7 @@ const CommentForm = ({ videoId, commentId, author, close }: Props) => {
         type="submit"
       >
         <Loader state={isPending}>
-          <Send
+          <SendIcon
             className="text-white/50 cursor-pointer hover:text-white/80"
             size={18}
           />

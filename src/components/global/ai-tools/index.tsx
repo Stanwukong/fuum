@@ -15,10 +15,7 @@ type Props = {
 const AiTools = ({ plan, trial, videoId }: Props) => {
   // WIP: Setup AI hook
   return (
-    <TabsContent
-      value="AI tools"
-      className="p-5 bg-neutral-800 rounded-xl flex flex-col gap-y-10"
-    >
+    <TabsContent value="AI tools">
       <div className="flex items-center">
         <div className="w-8/12">
           <h2 className="text-3xl font-bold">AI Tools</h2>

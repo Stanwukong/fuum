@@ -30,6 +30,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import InfoBar from "@/components/info-bar";
 import { useDispatch } from "react-redux";
 import { Workspaces, WORKSPACES } from "@/redux/slices/workspaces";
+import PaymentButton from "../payment-button";
 
 type Props = {
   activeWorkspaceId: string;
@@ -156,7 +157,7 @@ const Sidebar = ({ activeWorkspaceId }: Props) => {
         </div>
       )}
       <nav className="w-full">
-        <ul className="h-[150px] overflow-auto overflow-x-hidden fade-layer">
+        <ul className="h-[80px] overflow-auto overflow-x-hidden fade-layer">
           {workspaces.workspace.length > 0 &&
             workspaces.workspace.map(
               (item) =>
@@ -192,11 +193,12 @@ const Sidebar = ({ activeWorkspaceId }: Props) => {
             ))}
         </ul>
       </nav>
-      <Separator className="W-4/5" />
+      <Separator className="w-4/5" />
       {workspaces.subscription?.plan === "FREE" && (
         <GlobalCard
           title="Upgrade to Pro"
           description="Unlock AI features like transcription, AI summary and more"
+          footer={<PaymentButton />}
         >
           <Button className="text-sm w-full mt-2">
             <Loader color="#000" state={false}>
