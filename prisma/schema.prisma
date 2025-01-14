@@ -91,7 +91,7 @@ model Folder {
 
 model Video {
   id          String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  title       String?    @default("Untilted Video")
+  title       String?    @default("Untitled Video")
   description String?    @default("No Description")
   source      String     @unique
   createdAt   DateTime   @default(now())

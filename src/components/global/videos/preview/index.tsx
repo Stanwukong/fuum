@@ -12,6 +12,7 @@ import TabMenu from "@/components/forms/tabs";
 import AiTools from "../../ai-tools";
 import VideoTranscript from "../../video-transcript";
 import Activities from "../../activities";
+import EditVideo from "../edit";
 
 type Props = {
   videoId: string;
@@ -51,12 +52,14 @@ const VideoPreview = ({ videoId }: Props) => {
         <div>
           <div className="flex gap-x-5 items-start justify-between">
             <h2 className="text-white text-4xl font-bold">{video.title}</h2>
-            {/* {author ? (
-                <EditVideo 
+            {author ? (
+                <EditVideo
                 videoId={videoId} 
                 title={video.title as string} 
                 description={video.description as string}/>
-            ) : ()} */}
+            ) : (
+              <>Hello</>
+            )}
           </div>
           <span className="flex gap-x-3 mt-2">
             <p className="text-neutral-300 captitalize">
@@ -79,12 +82,7 @@ const VideoPreview = ({ videoId }: Props) => {
         <div className="flex flex-col text-2xl gap-y-4">
           <div className=" flex gap-x-5 items-center justify-between">
             <p className="text-neutral-400 font-semibold">Description</p>
-            {/* {author ? (
-                <EditVideo 
-                videoId={videoId} 
-                title={video.title as string} 
-                description={video.description as string}/>
-            ) : ()} */}
+             
           </div>
           <p className="text-neutral-500 text-lg font-medium">
             {video.description}
@@ -115,7 +113,7 @@ const VideoPreview = ({ videoId }: Props) => {
               trial={video.User?.trial}
               plan={video.User?.subscription?.plan}
             />
-            <VideoTranscript transcript={video.description} />
+            <VideoTranscript transcript={video.summary} />
             <Activities
               videoId={videoId}
               author={video.User?.firstname as string}

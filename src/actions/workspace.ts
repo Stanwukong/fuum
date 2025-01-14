@@ -3,6 +3,9 @@
 import { currentUser } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
 import { sendEmail } from "./user";
+import axios from "axios";
+import { createClient, OAuthStrategy } from "@wix/sdk";
+import { items } from "@wix/data"
 
 export const verifyAccessToWorkSpace = async (workspaceId: string) => {
   try {
@@ -417,5 +420,97 @@ export const sendEmailForFirstView = async (videoId: string) => {
     }
   } catch (error) {
     console.log(error)
+  }
+}
+
+export const editVideoInfo = async (
+  videoId: string,
+  title: string,
+  description: string
+) => {
+  try {
+    const video = await prisma.video.update({
+      where: {
+        id: videoId,
+      },
+      data: {
+        title,
+        description,
+      }
+    })
+    if (video) {
+      return { status: 200, data: "Video successfully updated" }
+    }
+    return { status: 404, data: "Video not found" }
+  } catch (error) {
+    return { status: 500, data: "Oops! Something went wrong!" }
+  }
+}
+
+// export const getWixContent = async() => {
+//   try {
+//     const myWixClient = createClient({
+//       modules: { items },
+//       auth: OAuthStrategy({
+//         clientId: process.env.WIX_OAUTH_KEY as string
+//       })
+//     })
+
+//     const videos = await myWixClient.items.queryDataItems({
+//       dataCollectionId: 'fuum-videos'
+//     }).find();
+
+//     const videoIds = videos.items.map((v) => v.data?.title)
+
+//     const video = await prisma.video.findMany({
+//       where: {
+//         id: {
+//           in: videoIds
+//         }
+//       },
+//       select: {
+//         id: true,
+//         createdAt: true,
+//         title: true,
+//         source: true,
+//         processing: true,
+//         workSpaceId: true,
+//         User: {
+//           select: {
+//             firstname: true,
+//             lastname: true,
+//             image: true
+//           }
+//         },
+//         Folder: {
+//           select: {
+//             id: true,
+//             name: true
+//           }
+//         }
+//       }
+//     })
+
+//     if (video && video.length > 0) {
+//       return { status: 200, data: video }
+//     }
+//     return { status: 404 }
+//   } catch (error) {
+//     console.log(error)
+//     return { status: 400 }
+//   }
+// }
+
+export const howToPost = async () => {
+  try {
+    const response = await axios.get(process.env.CLOUD_WAYS_POST as string)
+    if (response.data) {
+      return {
+        title: response.data[0].title.rendered,
+        content: response.data[0].content.rendered,
+      }
+    }
+  } catch (error) {
+    return { status: 400 }
   }
 }
